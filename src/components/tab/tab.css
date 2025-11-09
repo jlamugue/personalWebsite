@@ -1,0 +1,73 @@
+.tabs-container {
+	width: 100%;
+	padding-left: 2rem;
+	padding-right: 2rem;
+	font-family: system-ui, sans-serif;
+}
+
+.tabs-header {
+	position: relative;
+	display: flex;
+	justify-content: flex-start;
+	border-bottom: 1px solid #ddd;
+	gap: 2rem;
+}
+
+.tab-btn {
+	background: none;
+	border: none;
+	font-size: 1.8rem;
+	padding: 1rem 0;
+	cursor: pointer;
+	color: black;
+	position: relative;
+	transition: color 0.3s ease;
+	font-family: 'Afacad Flux', sans-serif;
+}
+
+.tab-btn:hover {
+	color: var(--color-main-blue);
+}
+
+.tab-btn.active {
+	color: var(--color-main-blue);
+	font-weight: 600;
+}
+
+.tabs-underline {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	height: 2px;
+	background: var(--color-main-blue);
+	width: 0;
+	transition: transform 0.4s ease, width 0.4s ease;
+}
+
+.tabs-content {
+	position: relative;
+	margin-top: 1.5rem;
+	overflow: hidden;
+}
+
+/* Smooth fade animation for content */
+.tab-text {
+	line-height: 1;
+	color: #444;
+	opacity: 0;
+	transform: translateY(10px);
+	transition: opacity 0.6s ease, transform 0.6s ease;
+	font-family: 'Afacad Flux', sans-serif;
+	font-size: 1.6rem;
+	font-weight: 400;
+}
+
+.tab-text.fade-in {
+	opacity: 1;
+	transform: translateY(0);
+}
+
+.tab-text.fade-out {
+	opacity: 0;
+	transform: translateY(-10px);
+}
