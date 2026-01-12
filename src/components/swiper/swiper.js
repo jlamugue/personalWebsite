@@ -2,40 +2,75 @@ import { SwiperDots } from '../swiper-dots/swiper-dots';
 import './swiper.css';
 
 export const Swiper = (images, options = {}) => {
-	const { autoSlide = true, interval = 4000, enableSwipe = true } = options;
+	const {
+		autoSlide = true,
+		interval = 4000,
+		enableSwipe = true,
+
+		// nuevas
+		dotsPosition = 'overlay', // 'overlay' | 'bottom'
+		dotsDirection = 'vertical', // 'vertical' | 'horizontal'
+		dotsColor = '#ffffff',
+
+		// para asegurar altura estable
+		aspectRatio = '16 / 9', // podés cambiarlo en modal si querés
+	} = options;
 
 	let current = 0;
 	let timer = null;
 	let startX = 0;
 	let isDragging = false;
 
-	// Swiper container
+	// Root
 	const container = document.createElement('div');
 	container.classList.add('swiper-container');
+
+	container.classList.toggle('swiper--dots-bottom', dotsPosition === 'bottom');
+	container.classList.toggle(
+		'swiper--dots-horizontal',
+		dotsDirection === 'horizontal'
+	);
+
+	container.style.setProperty('--swiper-dot-color', dotsColor);
+	container.style.setProperty('--swiper-aspect-ratio', aspectRatio);
+
+	// ✅ Stage con altura estable (aquí van las imágenes)
+	const stage = document.createElement('div');
+	stage.classList.add('swiper-stage');
 
 	// Two overlapping images for smooth crossfade
 	const img1 = document.createElement('img');
 	const img2 = document.createElement('img');
 	img1.classList.add('swiper-image');
 	img2.classList.add('swiper-image');
+
 	img1.src = images[current];
 	img1.draggable = false;
 	img2.draggable = false;
 	img2.style.opacity = 0;
 
-	container.append(img1, img2);
+	stage.append(img1, img2);
 
-	// Overlay for dots
-	const overlay = document.createElement('div');
-	overlay.classList.add('swiper-overlay');
+	// Dots wrapper (overlay o bottom)
+	const dotsWrapper = document.createElement('div');
+	dotsWrapper.classList.add('swiper-dots-wrapper');
 
 	const { element: dotsEl, updateDots } = SwiperDots(
 		images.length,
 		goTo,
 		current
 	);
-	overlay.appendChild(dotsEl);
-	container.appendChild(overlay);
+
+	dotsWrapper.appendChild(dotsEl);
+
+	// ✅ Ensamble correcto según posición
+	if (dotsPosition === 'overlay') {
+		stage.appendChild(dotsWrapper); // dots encima de la imagen
+		container.appendChild(stage);
+	} else {
+		container.appendChild(stage);
+		container.appendChild(dotsWrapper); // dots debajo (fuera del stage)
+	}
 
 	// Go to specific slide
 	function goTo(index) {
@@ -45,6 +80,8 @@ export const Swiper = (images, options = {}) => {
 		const bottom = current % 2 === 0 ? img2 : img1;
 
 		bottom.src = images[next];
+
+		// mantener transición
 		bottom.style.transition = 'opacity 1s ease-in-out';
 		top.style.transition = 'opacity 1s ease-in-out';
 
@@ -72,7 +109,7 @@ export const Swiper = (images, options = {}) => {
 		});
 	}
 
-	// Swipe gestures
+	// Swipe gestures (igual que antes, pero en el CONTAINER está bien)
 	if (enableSwipe) {
 		container.addEventListener('touchstart', (e) => {
 			startX = e.touches[0].clientX;
@@ -94,7 +131,6 @@ export const Swiper = (images, options = {}) => {
 			if (autoSlide) timer = setInterval(next, interval);
 		});
 
-		// Mouse drag
 		container.addEventListener('mousedown', (e) => {
 			startX = e.clientX;
 			isDragging = true;

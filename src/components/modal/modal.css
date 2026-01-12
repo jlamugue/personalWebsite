@@ -1,0 +1,61 @@
+.jlm-modal-overlay {
+	position: fixed;
+	inset: 0;
+	background: rgba(0, 0, 0, 0.55);
+	display: grid;
+	place-items: center;
+	padding: 24px;
+	z-index: 9999;
+}
+
+.jlm-modal {
+	width: min(920px, 100%);
+	background: #fff;
+	border-radius: 16px;
+	overflow: hidden;
+	box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
+}
+
+.jlm-modal-header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 16px;
+	padding: 16px 18px;
+	border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.jlm-modal-title {
+	margin: 0;
+	font-size: 18px;
+}
+
+.jlm-modal-close {
+	border: 0;
+	background: transparent;
+	font-size: 18px;
+	cursor: pointer;
+	padding: 6px 10px;
+	border-radius: 10px;
+}
+
+.jlm-modal-close:hover {
+	background: rgba(0, 0, 0, 0.06);
+}
+
+.jlm-modal-body {
+	padding: 16px 18px 18px;
+}
+
+/* opcional: hacer que el swiper se vea bien dentro */
+.jlm-modal-body #jlm-modal-swiper {
+	width: 100%;
+}
+
+.jlm-modal-body .swiper-image {
+	object-fit: contain;
+}
+.jlm-modal-body .swiper-container {
+	margin-bottom: 0;
+	aspect-ratio: auto;
+}

@@ -1,34 +1,40 @@
-/* Main container */
+/* Root */
 .swiper-container {
-	position: relative;
 	width: 100%;
-	overflow: hidden;
 	user-select: none;
 	background: white;
 	margin-bottom: 8rem;
-	aspect-ratio: 16 / 9; /* o quitá esto para usar el tamaño real */
 }
 
-/* Two overlapping images for smooth crossfade */
+/* ✅ Stage con altura estable */
+.swiper-stage {
+	position: relative;
+	width: 100%;
+	overflow: hidden;
+	background: white;
+	aspect-ratio: var(--swiper-aspect-ratio, 16 / 9);
+}
+
+/* Imágenes superpuestas */
 .swiper-image {
 	position: absolute;
-	top: 0;
-	left: 0;
+	inset: 0;
 	width: 100%;
-	height: auto; /* ✅ hace que el contenedor se adapte al alto real */
+	height: 100%; /* ✅ IMPORTANTÍSIMO: evita saltos */
 	display: block;
-	object-fit: cover; /* o 'contain' si querés mostrar todo sin recorte */
+	object-fit: cover; /* en modal lo podés cambiar a contain */
 	opacity: 1;
 	transition: opacity 1s ease-in-out;
-	user-drag: none;
+
 	-webkit-user-drag: none;
+	user-drag: none;
 	user-select: none;
 	-webkit-user-select: none;
 	pointer-events: none;
 }
 
-/* Overlay for dots */
-.swiper-overlay {
+/* Dots wrapper default: overlay */
+.swiper-dots-wrapper {
 	position: absolute;
 	inset: 0;
 	display: flex;
@@ -37,7 +43,17 @@
 	pointer-events: none;
 }
 
-/* Dots positioned vertically */
+/* Dots abajo: el wrapper YA NO es absoluto */
+.swiper--dots-bottom .swiper-dots-wrapper {
+	position: relative;
+	inset: auto;
+	display: flex;
+	justify-content: center;
+	margin-top: 14px;
+	pointer-events: auto;
+}
+
+/* Dots vertical (default) */
 .swiper-dots {
 	display: flex;
 	flex-direction: column;
@@ -46,24 +62,35 @@
 	pointer-events: auto;
 }
 
-/* Square dots */
+/* Dots horizontales */
+.swiper--dots-horizontal .swiper-dots {
+	flex-direction: row;
+	padding-left: 0;
+	gap: 14px;
+}
+
+/* Color configurable */
 .swiper-dots .dot {
 	width: 12px;
 	height: 12px;
-	border-radius: 3px; /* 0 for perfect squares, 3px for soft corners */
+	border-radius: 3px;
 	background-color: rgba(255, 255, 255, 0.5);
 	cursor: pointer;
-	transition: all 0.4s ease;
+	transition: all 0.3s ease;
 }
 
-.swiper-dots .dot:hover {
-	background-color: rgba(255, 255, 255, 0.8);
-}
-
-/* Active dot — slightly bigger or rotated */
 .swiper-dots .dot.active {
-	background-color: #fff;
-	transform: scale(1.2) rotate(45deg);
+	background-color: var(--swiper-dot-color, #fff);
+	transform: scale(1.15);
+}
+
+/* si querés que también el no-activo tome el color pero con opacidad */
+.swiper--dots-bottom .swiper-dots .dot {
+	background-color: color-mix(
+		in srgb,
+		var(--swiper-dot-color, #fff) 40%,
+		transparent
+	);
 }
 
 @media (max-width: 768px) {

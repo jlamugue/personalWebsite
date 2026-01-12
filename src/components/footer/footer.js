@@ -1,3 +1,4 @@
+import { ContactForm } from '../contact-form/contact-form';
 import './footer.css';
 
 export const Footer = () => {
@@ -22,25 +23,21 @@ export const Footer = () => {
       <a href="https://wa.me/50688670577" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
       <a href="https://www.facebook.com/share/19hjEzPDqM/" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
       <a href="https://www.tiktok.com/@jean.lamugue?_r=1&_t=ZM-91FCAAA1A8R" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
-      <a href="https://youtube.com/@jlamuguearquitectura?si=hyLv3fgDeFivGq_E" aria-label="Youtuve"><i class="fab fa-youtube"></i></a>
+      <a href="https://youtube.com/@jlamuguearquitectura?si=hyLv3fgDeFivGq_E" aria-label="Youtube"><i class="fab fa-youtube"></i></a>
     </div>
   </div>
 
-  <div class="footer-right">
-    <form class="footer-form">
-      <input type="text" name="name" placeholder="Nombre" required />
-      <input type="email" name="email" placeholder="Correo electrónico" required />
-      <input type="tel" name="phone" placeholder="Teléfono" required />
-      <textarea name="message" placeholder="Cuéntame sobre tu proyecto..." required></textarea>
-      <button type="submit">Enviar mensaje</button>
-    </form>
-  </div>
+  <div class="footer-right" id="footer-form-slot"></div>
 </div>
 
 <div class="footer-bottom">
   <p>© ${new Date().getFullYear()} Dakur Dota2 Inmortal — Todos los derechos reservados.</p>
 </div>
 `;
+
+	// 🔥 montar el form AJAX
+	const slot = footer.querySelector('#footer-form-slot');
+	slot.append(ContactForm());
 
 	return footer;
 };
