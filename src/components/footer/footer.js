@@ -14,7 +14,7 @@ export const Footer = () => {
     </p>
 
     <div class="footer-contact">
-      <p><strong>Email:</strong> <a href="mailto:hernan@hotmail.com">hernan@hotmail.com</a></p>
+      <p><strong>Email:</strong> <a href="mailto:jl.arqdi@gmail.com">jl.arqdi@gmail.com</a></p>
       <p><strong>Teléfono:</strong> <a href="tel:+50688670577">+506 8867-0577</a></p>
     </div>
 
@@ -31,7 +31,7 @@ export const Footer = () => {
 </div>
 
 <div class="footer-bottom">
-  <p>© ${new Date().getFullYear()} Dakur Dota2 Inmortal — Todos los derechos reservados.</p>
+  <p>© ${new Date().getFullYear()} Jean Lamugue — Todos los derechos reservados.</p>
 </div>
 `;
 
