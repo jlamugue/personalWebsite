@@ -1,8 +1,11 @@
-import { Carousel, Swiper } from '../../components';
+import { Carousel, SectionTitle, Swiper } from '../../components';
 import { carouselImages } from '../../data/carousel-images';
 import { isMobile } from '../../utils/is-mobile';
 
 export function renderResponsiveCarousel() {
+	const container = document.createElement('section');
+	container.append(SectionTitle('Galería'));
+	
 	const node = isMobile()
 		? Swiper(carouselImages, {
 				autoSlide: true,
@@ -17,5 +20,6 @@ export function renderResponsiveCarousel() {
 		  });
 
 	node.id = 'jlm-carousel';
-	return node;
+	container.append(node);
+	return container;
 }

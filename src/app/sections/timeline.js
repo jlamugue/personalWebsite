@@ -1,8 +1,11 @@
-import { HorizontalTimeline, VerticalTimeline } from '../../components';
+import { HorizontalTimeline, SectionTitle, VerticalTimeline } from '../../components';
 import { steps } from '../../data/steps';
 import { isMobile } from '../../utils/is-mobile';
 
 export function renderTimeline() {
+	const wrapper = document.createElement('section');
+	wrapper.append(SectionTitle('Procesos'));
+	
 	const container = document.createElement('div');
 	container.id = 'jlm-timeline';
 
@@ -38,5 +41,6 @@ export function renderTimeline() {
 		doRender();
 	});
 
-	return container;
+	wrapper.append(container);
+	return wrapper;
 }

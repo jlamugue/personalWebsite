@@ -1,8 +1,13 @@
-import { Tab } from '../../components';
+import { SectionTitle, Tab } from '../../components';
 import { tabs } from '../../data/tabs';
 
 export function renderHistoryTabs() {
+	const container = document.createElement('section');
+	container.append(SectionTitle('Nuestra historia'));
+	
 	const historyTab = Tab(tabs);
 	historyTab.id = 'jlm-history-tab';
-	return historyTab;
+	container.append(historyTab);
+	
+	return container;
 }

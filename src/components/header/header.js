@@ -1,10 +1,10 @@
 import './header.css';
 
 export const header = () => {
-	const el = document.createElement('header');
-	el.className = 'app-header';
+  const el = document.createElement('header');
+  el.className = 'app-header';
 
-	el.innerHTML = /*html*/ `
+  el.innerHTML = /*html*/ `
 <div class="header-inner">
   <div class="header-line-social">
     <img class="app-logo" src="/src/assets/images/logo.webp" alt="Logo" />
@@ -24,7 +24,7 @@ export const header = () => {
     <ul class="nav-list">
       <li><a class="nav-item mr3" href="#jlm-services-cards">Servicios</a></li>
       <li><a class="nav-item mr3" href="#jlm-history-tab">Nuestra historia</a></li>
-      <li><a class="nav-item mr3" href="#jlm-timeline">Planificación</a></li>
+      <li><a class="nav-item mr3" href="#jlm-timeline">Procesos</a></li>
       <li><a class="nav-item mr3" href="#jlm-testimonial-carousel">Testimonios</a></li>
       <li><a class="nav-item mr3" href="#jlm-projects">Proyectos</a></li>
       <li><a class="nav-item mr3" href="#jlm-footer">Contacto</a></li>
@@ -33,14 +33,14 @@ export const header = () => {
 </div>
 `;
 
-	// lógica del botón hamburguesa
-	const btn = el.querySelector('.menu-toggle');
-	const nav = el.querySelector('.nav');
+  // lógica del botón hamburguesa
+  const btn = el.querySelector('.menu-toggle');
+  const nav = el.querySelector('.nav');
 
-	btn.addEventListener('click', () => {
-		nav.classList.toggle('open');
-		btn.classList.toggle('active');
-	});
+  btn.addEventListener('click', () => {
+    nav.classList.toggle('open');
+    btn.classList.toggle('active');
+  });
 
-	return el;
+  return el;
 };

@@ -6,6 +6,7 @@ export * from './header/header';
 export * from './main-section/main-section';
 export * from './modal/modal';
 export * from './project/project';
+export * from './section-title/section-title';
 export * from './swiper-dots/swiper-dots';
 export * from './swiper/swiper';
 export * from './tab/tab';

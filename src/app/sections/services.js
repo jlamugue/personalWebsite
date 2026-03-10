@@ -1,8 +1,13 @@
-import { Card } from '../../components';
+import { Card, SectionTitle } from '../../components';
 import { cards } from '../../data/cards';
 
 export function renderServices() {
+	const container = document.createElement('section');
+	container.append(SectionTitle('Servicios'));
+	
 	const servicesCards = Card(cards);
 	servicesCards.id = 'jlm-services-cards';
-	return servicesCards;
+	container.append(servicesCards);
+	
+	return container;
 }
