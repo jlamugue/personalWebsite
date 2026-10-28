@@ -16,6 +16,10 @@
 
 .carousel-slide {
 	flex: 0 0 auto;
+	width: calc(
+		(100% - var(--carousel-gap, 16px) * (var(--carousel-visible, 2) - 1)) /
+			var(--carousel-visible, 2)
+	);
 	border-radius: 12px;
 	overflow: hidden;
 }
@@ -32,6 +36,64 @@
 
 .carousel-slide img:hover {
 	transform: scale(1.05);
+}
+
+/* Slide de grupo: título del servicio y cuadro de 2 por 2 */
+.carousel-slide--group {
+	align-self: flex-start;
+	border-radius: 0;
+}
+
+.carousel-group-title {
+	font-family: 'Afacad Flux', sans-serif;
+	font-size: 1.5rem;
+	font-weight: 600;
+	color: var(--color-main-blue, #1d2d4d);
+	margin: 0 0 1rem;
+}
+
+.carousel-group-grid {
+	aspect-ratio: 1 / 1;
+	display: grid;
+	grid-template-columns: repeat(2, 1fr);
+	grid-template-rows: repeat(2, 1fr);
+	gap: 16px;
+}
+
+.carousel-cell {
+	overflow: hidden;
+	min-width: 0;
+	min-height: 0;
+	border-radius: 10px;
+}
+
+.carousel-group-grid img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
+/* Alinear la galería con el título de la sección */
+#jlm-carousel {
+	width: auto;
+	margin-left: 2rem;
+	margin-right: 2rem;
+}
+
+@media (max-width: 768px) {
+	#jlm-carousel {
+		margin-left: 1rem;
+		margin-right: 1rem;
+	}
+
+	.carousel-group-title {
+		font-size: 1.25rem;
+		margin-bottom: 0.75rem;
+	}
+
+	.carousel-group-grid {
+		gap: 10px;
+	}
 }
 
 /* Arrows */

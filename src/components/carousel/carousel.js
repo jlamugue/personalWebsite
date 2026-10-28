@@ -28,16 +28,46 @@ export const Carousel = (images, options = {}) => {
 	const track = document.createElement('div');
 	track.classList.add('carousel-track');
 
-	// Slides
-	fullImages.forEach((src) => {
+	// Slides: cada elemento puede ser una imagen suelta o un grupo
+	// { title, images }, que se muestra con su título y un cuadro de 2 por 2.
+	fullImages.forEach((item) => {
 		const slide = document.createElement('div');
 		slide.classList.add('carousel-slide');
-		const img = document.createElement('img');
-		img.src = src;
-		img.draggable = false;
-		slide.appendChild(img);
+
+		if (item && Array.isArray(item.images)) {
+			slide.classList.add('carousel-slide--group');
+
+			if (item.title) {
+				const title = document.createElement('h3');
+				title.classList.add('carousel-group-title');
+				title.textContent = item.title;
+				slide.appendChild(title);
+			}
+
+			const grid = document.createElement('div');
+			grid.classList.add('carousel-group-grid');
+			item.images.forEach((src) => {
+				const cell = document.createElement('div');
+				cell.classList.add('carousel-cell');
+				cell.appendChild(createImage(src));
+				grid.appendChild(cell);
+			});
+			slide.appendChild(grid);
+		} else {
+			slide.appendChild(createImage(item));
+		}
+
 		track.appendChild(slide);
 	});
+
+	function createImage(src) {
+		const img = document.createElement('img');
+		img.src = src;
+		img.alt = '';
+		img.loading = 'lazy';
+		img.draggable = false;
+		return img;
+	}
 
 	container.appendChild(track);
 
@@ -66,6 +96,9 @@ export const Carousel = (images, options = {}) => {
 
 	// --- Functions ---
 	function update(animate = true) {
+		// Si todavía no está en la página no hay ancho que medir
+		if (!container.clientWidth) return;
+
 		const slideWidth =
 			(container.clientWidth - gap * (visibleCount - 1)) / visibleCount;
 
@@ -165,6 +198,33 @@ export const Carousel = (images, options = {}) => {
 		container.addEventListener('mouseleave', () => {
 			isDragging = false;
 		});
+
+		// Deslizar con el dedo en móvil
+		container.addEventListener(
+			'touchstart',
+			(e) => {
+				startX = e.touches[0].clientX;
+				isDragging = true;
+			},
+			{ passive: true }
+		);
+
+		container.addEventListener(
+			'touchmove',
+			(e) => {
+				if (!isDragging) return;
+				const diff = e.touches[0].clientX - startX;
+				if (Math.abs(diff) > 50) {
+					diff > 0 ? prev() : next();
+					isDragging = false;
+				}
+			},
+			{ passive: true }
+		);
+
+		container.addEventListener('touchend', () => {
+			isDragging = false;
+		});
 	}
 
 	function createArrow(direction, onClick) {
@@ -180,14 +240,20 @@ export const Carousel = (images, options = {}) => {
 				? '<svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true"><path d="M15 6l-6 6 6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>'
 				: '<svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true"><path d="M9 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
 		btn.addEventListener('mousedown', (e) => e.stopPropagation());
+		btn.addEventListener('touchstart', (e) => e.stopPropagation(), {
+			passive: true,
+		});
 		btn.addEventListener('click', onClick);
 		return btn;
 	}
 
-	// Initial setup
-	update(false);
+	// Tamaño inicial por CSS, para que las imágenes no salgan gigantes antes de medir
+	container.style.setProperty('--carousel-visible', visibleCount);
+	container.style.setProperty('--carousel-gap', gap + 'px');
 
-	window.addEventListener('resize', () => update(false));
+	// Medir cuando el carrusel entra a la página y cada vez que cambia de ancho
+	const resizeObserver = new ResizeObserver(() => update(false));
+	resizeObserver.observe(container);
 
 	return container;
 };
