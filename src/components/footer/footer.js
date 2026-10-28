@@ -21,9 +21,9 @@ export const Footer = () => {
     </div>
 
     <div class="footer-social">
-      <a href="https://www.instagram.com/jean.lamugue/" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+      <a href="https://www.instagram.com/jean.lamugue?utm_source=qr&srtk=MWxzOHdzNHJ6cGp3NQ==" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
       <a href="https://wa.me/50688670577" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
-      <a href="https://www.facebook.com/share/19hjEzPDqM/" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
+      <a href="https://www.facebook.com/profile.php?id=61587851564716" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
       <a href="https://www.tiktok.com/@jlamuguearquitectura" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
       <a href="https://youtube.com/@jlamuguearquitectura?si=hyLv3fgDeFivGq_E" aria-label="Youtube"><i class="fab fa-youtube"></i></a>
     </div>

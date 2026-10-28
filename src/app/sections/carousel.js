@@ -8,15 +8,15 @@ export function renderResponsiveCarousel() {
 	
 	const node = isMobile()
 		? Swiper(carouselImages, {
-				autoSlide: true,
-				interval: 4000,
+				autoSlide: false,
 				enableSwipe: true,
+				showArrows: true,
 		  })
 		: Carousel(carouselImages, {
 				visibleCount: 2,
 				gap: 16,
-				autoSlide: true,
-				interval: 2000,
+				autoSlide: false,
+				showArrows: true,
 		  });
 
 	node.id = 'jlm-carousel';

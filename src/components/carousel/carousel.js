@@ -7,6 +7,7 @@ export const Carousel = (images, options = {}) => {
 		autoSlide = true,
 		interval = 4000,
 		enableSwipe = true,
+		showArrows = false,
 	} = options;
 
 	let current = visibleCount; // start after clones
@@ -40,6 +41,12 @@ export const Carousel = (images, options = {}) => {
 
 	container.appendChild(track);
 
+	// Arrows
+	if (showArrows) {
+		container.appendChild(createArrow('prev', () => prev()));
+		container.appendChild(createArrow('next', () => next()));
+	}
+
 	// Dots
 	const dotsContainer = document.createElement('div');
 	dotsContainer.classList.add('carousel-dots');
@@ -63,7 +70,7 @@ export const Carousel = (images, options = {}) => {
 			(container.clientWidth - gap * (visibleCount - 1)) / visibleCount;
 
 		// Aplicar width exacto a cada slide
-		document.querySelectorAll('.carousel-slide').forEach((s) => {
+		track.querySelectorAll('.carousel-slide').forEach((s) => {
 			s.style.width = slideWidth + 'px';
 		});
 		const offset = -(current * (slideWidth + gap));
@@ -79,38 +86,49 @@ export const Carousel = (images, options = {}) => {
 	}
 
 	function next() {
+		if (isAnimating()) return;
 		current++;
 		update();
 		handleLoop();
 	}
 
 	function prev() {
+		if (isAnimating()) return;
 		current--;
 		update();
 		handleLoop();
 	}
 
 	function goTo(index) {
+		if (isAnimating() || index === current) return;
 		current = index;
 		update();
 		handleLoop();
 	}
 
+	// Evita clics rápidos que rompen el salto infinito
+	let animating = false;
+	function isAnimating() {
+		return animating;
+	}
+
 	function handleLoop() {
+		animating = true;
 		// Wait for transition to end, then jump seamlessly
-		track.addEventListener(
-			'transitionend',
-			() => {
-				if (current >= images.length + visibleCount) {
-					current = visibleCount;
-					update(false);
-				} else if (current < visibleCount) {
-					current = images.length + visibleCount - 1;
-					update(false);
-				}
-			},
-			{ once: true }
-		);
+		const onEnd = (e) => {
+			// Ignorar transiciones de las imágenes (zoom en hover)
+			if (e.target !== track) return;
+			track.removeEventListener('transitionend', onEnd);
+			animating = false;
+			if (current >= images.length + visibleCount) {
+				current = visibleCount;
+				update(false);
+			} else if (current < visibleCount) {
+				current = images.length + visibleCount - 1;
+				update(false);
+			}
+		};
+		track.addEventListener('transitionend', onEnd);
 	}
 
 	// --- Auto Slide ---
@@ -147,6 +165,23 @@ export const Carousel = (images, options = {}) => {
 		container.addEventListener('mouseleave', () => {
 			isDragging = false;
 		});
+	}
+
+	function createArrow(direction, onClick) {
+		const btn = document.createElement('button');
+		btn.type = 'button';
+		btn.classList.add('carousel-arrow', `carousel-arrow--${direction}`);
+		btn.setAttribute(
+			'aria-label',
+			direction === 'prev' ? 'Imagen anterior' : 'Imagen siguiente'
+		);
+		btn.innerHTML =
+			direction === 'prev'
+				? '<svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true"><path d="M15 6l-6 6 6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>'
+				: '<svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true"><path d="M9 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+		btn.addEventListener('mousedown', (e) => e.stopPropagation());
+		btn.addEventListener('click', onClick);
+		return btn;
 	}
 
 	// Initial setup

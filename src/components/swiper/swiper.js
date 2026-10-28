@@ -6,6 +6,7 @@ export const Swiper = (images, options = {}) => {
 		autoSlide = true,
 		interval = 4000,
 		enableSwipe = true,
+		showArrows = false,
 
 		// nuevas
 		dotsPosition = 'overlay', // 'overlay' | 'bottom'
@@ -50,6 +51,33 @@ export const Swiper = (images, options = {}) => {
 	img2.style.opacity = 0;
 
 	stage.append(img1, img2);
+
+	// Flechas (opcionales)
+	if (showArrows) {
+		stage.append(
+			createArrow('prev', () => prev()),
+			createArrow('next', () => next())
+		);
+	}
+
+	function createArrow(direction, onClick) {
+		const btn = document.createElement('button');
+		btn.type = 'button';
+		btn.classList.add('swiper-arrow', `swiper-arrow--${direction}`);
+		btn.setAttribute(
+			'aria-label',
+			direction === 'prev' ? 'Imagen anterior' : 'Imagen siguiente'
+		);
+		btn.innerHTML =
+			direction === 'prev'
+				? '<svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M15 6l-6 6 6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>'
+				: '<svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M9 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+		// Que el clic en la flecha no inicie un arrastre
+		btn.addEventListener('mousedown', (e) => e.stopPropagation());
+		btn.addEventListener('touchstart', (e) => e.stopPropagation());
+		btn.addEventListener('click', onClick);
+		return btn;
+	}
 
 	// Dots wrapper (overlay o bottom)
 	const dotsWrapper = document.createElement('div');
